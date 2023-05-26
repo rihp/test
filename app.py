@@ -24,7 +24,7 @@ retriever.search_kwargs['fetch_k'] = 100
 retriever.search_kwargs['maximal_marginal_relevance'] = True
 retriever.search_kwargs['k'] = 10
 
-model = ChatOpenAI(model_name='gpt-3.5-turbo') # switch to 'gpt-4'
+model = ChatOpenAI(model_name='gpt-4', temperature=0) # switch to 'gpt-4'
 qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
 
 
