@@ -1,5 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
 import os
 from dotenv import load_dotenv
 
@@ -29,6 +35,7 @@ qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
 
 
 @app.route('/ask', methods=['POST'])
+@cross_origin()
 def ask_question():
     print('hello there')
     data = request.get_json()
