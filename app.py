@@ -1,28 +1,50 @@
 from flask import Flask, request, jsonify
 app = Flask(__name__)
+import os
+from dotenv import load_dotenv
+
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.chat_models import ChatOpenAI
+from langchain.chains import ConversationalRetrievalChain
+from langchain.vectorstores import DeepLake
+
+load_dotenv()
+
+os.environ.get("ACTIVELOOP_TOKEN")
+username = "rihp" # replace with your username from app.activeloop.ai
+projectname = "polywrap5" # replace with your project name from app.activeloop.ai
+
+embeddings = OpenAIEmbeddings(disallowed_special=())
+
+db = DeepLake(dataset_path=f"hub://{username}/{projectname}", read_only=True, embedding_function=embeddings)
+
+retriever = db.as_retriever()
+retriever.search_kwargs['distance_metric'] = 'cos'
+retriever.search_kwargs['fetch_k'] = 100
+retriever.search_kwargs['maximal_marginal_relevance'] = True
+retriever.search_kwargs['k'] = 10
+
+model = ChatOpenAI(model_name='gpt-3.5-turbo') # switch to 'gpt-4'
+qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
 
 
-@app.route('/getmsg/', methods=['GET'])
-def respond():
-    # Retrieve the name from the url parameter /getmsg/?name=
-    name = request.args.get("name", None)
+@app.route('/ask', methods=['POST'])
+def ask_question():
+    print('hello there')
+    data = request.get_json()
+    prompt = data['question']
 
-    # For debugging
-    print(f"Received: {name}")
+    questions = [prompt]
+    chat_history = []
 
-    response = {}
-
-    # Check if the user sent a name at all
-    if not name:
-        response["ERROR"] = "No name found. Please send a name."
-    # Check if the user entered a number
-    elif str(name).isdigit():
-        response["ERROR"] = "The name can't be numeric. Please send a string."
-    else:
-        response["MESSAGE"] = f"Welcome {name} to our awesome API!"
-
-    # Return the response in json format
-    return jsonify(response)
+    for question in questions:
+        result = qa({"question": question, "chat_history": chat_history})
+        chat_history.append((question, result['answer']))
+        print(f"-> **Question**: {question} \n")
+        print(f"**Answer**: {result['answer']} \n")
+    
+    answer = result['answer']
+    return jsonify({"answer": answer})  
 
 
 @app.route('/')

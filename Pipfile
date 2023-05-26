@@ -8,6 +8,10 @@ verify_ssl = true
 [packages]
 flask = "==2.3.2"
 gunicorn = "==20.1.0"
+deeplake = "==3.4.3"
+python-dotenv = "==1.0.0"
+openai = "==0.27.2"
+langchain = "==0.0.168"
 
 [requires]
 python_version = "3.1"
