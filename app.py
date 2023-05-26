@@ -12,7 +12,7 @@ load_dotenv()
 
 os.environ.get("ACTIVELOOP_TOKEN")
 username = "rihp" # replace with your username from app.activeloop.ai
-projectname = "polywrap6" # replace with your project name from app.activeloop.ai
+projectname = "polywrap7" # replace with your project name from app.activeloop.ai
 
 embeddings = OpenAIEmbeddings(disallowed_special=())
 
