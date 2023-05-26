@@ -39,7 +39,7 @@ def ask_question():
 
     for question in questions:
         prefix = ""
-        sufix = ". Dont give me any additional text or comments. Remember to use double quotes, and return the output as a python dict structure"
+        sufix = ". I just want the code structure . Dont give me any additional text or comments. Remember to use double quotes"
 
         result = qa({"question": f'{prefix} {question} {sufix}', "chat_history": chat_history})
         # chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
