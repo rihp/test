@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, allow_headers=["Origin", "X-Requested-With", "Content-Type", "Accept"])
+
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -18,7 +19,7 @@ load_dotenv()
 
 os.environ.get("ACTIVELOOP_TOKEN")
 username = "rihp" # replace with your username from app.activeloop.ai
-projectname = "polywrap10" # replace with your project name from app.activeloop.ai
+projectname = "polywrap11" # replace with your project name from app.activeloop.ai
 
 embeddings = OpenAIEmbeddings(disallowed_special=())
 
@@ -35,7 +36,7 @@ qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
 
 
 @app.route('/ask', methods=['POST'])
-@cross_origin()
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def ask_question():
     print('hello there')
     data = request.get_json()
