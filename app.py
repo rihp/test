@@ -38,11 +38,26 @@ def ask_question():
     chat_history = []
 
     for question in questions:
-        result = qa({"question": question, "chat_history": chat_history})
-        chat_history.append((question, result['answer']))
+        prefix = """Use this code snippet as a base example. If you miss any require argument, leave it empty.
+            const result = await client.invoke({
+            uri: "wrap/ens",
+            method: "registerDomain",
+            args: {
+                domain: "amiguillo.eth",
+                owner: "",
+                registrarAddress: "",
+                connection: {
+                networkNameOrChainId: network
+                }
+            }"""
+        sufix = """From the schema.graphql every element should be implemented if it's marked with an exclamation point, like 'String!' implemented argument. """
+        result = qa({"question": f'{prefix} {question} {sufix}', "chat_history": chat_history})
+        chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
         print(f"-> **Question**: {question} \n")
         print(f"**Answer**: {result['answer']} \n")
     
+
+
     answer = result['answer']
     return jsonify({"answer": answer})  
 
