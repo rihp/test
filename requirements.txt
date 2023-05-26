@@ -3,4 +3,4 @@ gunicorn==20.1.0
 langchain==0.0.168
 openai==0.27.2
 python-dotenv==1.0.0
-DeepLake
+deeplake==3.4.3
