@@ -12,7 +12,7 @@ load_dotenv()
 
 os.environ.get("ACTIVELOOP_TOKEN")
 username = "rihp" # replace with your username from app.activeloop.ai
-projectname = "polywrap7" # replace with your project name from app.activeloop.ai
+projectname = "polywrap9" # replace with your project name from app.activeloop.ai
 
 embeddings = OpenAIEmbeddings(disallowed_special=())
 
@@ -38,19 +38,8 @@ def ask_question():
     chat_history = []
 
     for question in questions:
-        prefix = """Use this code snippet as a base example. If you miss any require argument, leave it empty.
-            const result = await client.invoke({
-            uri: "wrap/ens",
-            method: "registerDomain",
-            args: {
-                domain: "amiguillo.eth",
-                owner: "",
-                registrarAddress: "",
-                connection: {
-                networkNameOrChainId: network
-                }
-            }"""
-        sufix = """From the schema.graphql every element should be implemented if it's marked with an exclamation point, like 'String!' implemented argument. """
+        prefix = """"""
+        sufix = """"""
         result = qa({"question": f'{prefix} {question} {sufix}', "chat_history": chat_history})
         # chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
         print(f"-> **Question**: {question} \n")
