@@ -12,7 +12,7 @@ load_dotenv()
 
 os.environ.get("ACTIVELOOP_TOKEN")
 username = "rihp" # replace with your username from app.activeloop.ai
-projectname = "polywrap9" # replace with your project name from app.activeloop.ai
+projectname = "polywrap10" # replace with your project name from app.activeloop.ai
 
 embeddings = OpenAIEmbeddings(disallowed_special=())
 
@@ -38,16 +38,17 @@ def ask_question():
     chat_history = []
 
     for question in questions:
-        prefix = """"""
-        sufix = """"""
+        prefix = ""
+        sufix = ". Dont give me any additional text or comments. Remember to use double quotes, and return the output as a python dict structure"
+
         result = qa({"question": f'{prefix} {question} {sufix}', "chat_history": chat_history})
         # chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
         print(f"-> **Question**: {question} \n")
         print(f"**Answer**: {result['answer']} \n")
     
 
-
     answer = result['answer']
+
     return jsonify({"answer": answer})  
 
 
