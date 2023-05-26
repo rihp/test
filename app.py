@@ -52,7 +52,7 @@ def ask_question():
             }"""
         sufix = """From the schema.graphql every element should be implemented if it's marked with an exclamation point, like 'String!' implemented argument. """
         result = qa({"question": f'{prefix} {question} {sufix}', "chat_history": chat_history})
-        chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
+        # chat_history.append((f'{prefix} {question} {sufix}', result['answer']))
         print(f"-> **Question**: {question} \n")
         print(f"**Answer**: {result['answer']} \n")
     
